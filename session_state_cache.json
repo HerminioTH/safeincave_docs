@@ -1,0 +1,35 @@
+{
+    "eq": {
+        "eq_total_strain_0": 1,
+        "eq_sigma_kelvin_0": 2,
+        "eq_sigma_kelvin_1": 3,
+        "eq_eps_rate_ds_0": 4,
+        "eq_eps_rate_vp_0": 5,
+        "eq_Fvp": 6,
+        "eq_alpha_0": 7,
+        "eq_qsi_0": 8,
+        "eq_alpha_init": 9,
+        "eq_eps_th_0": 10,
+        "eq_heat_0": 11,
+        "eq_heat_bc": 12,
+        "eq_mom_0": 13,
+        "eq_mom_bc": 14,
+        "eq_stress_0": 15,
+        "eq_eps_e": 16,
+        "eq_small_strain": 17,
+        "eq_ne_strain": 18,
+        "eq_stress_1": 19,
+        "eq_trial_T": 20,
+        "eq_test_T": 21,
+        "eq_weak_heat_0": 22,
+        "eq_weak_heat_1": 1,
+        "eq_eps_i": 1,
+        "eq_eps_i_0": 1,
+        "eq_eps_i_1": 2,
+        "eq_stress_2": 1,
+        "eq_eps_rate_i_0": 1
+    },
+    "fig": {
+        "fig_constitutive_model_0": 1
+    }
+}
