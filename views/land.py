@@ -1,4 +1,5 @@
 import streamlit as st
+import os
 
 st.set_page_config(layout="wide") 
 
@@ -14,9 +15,11 @@ st.set_page_config(layout="wide")
 # ---
 
 st.image(
-    "https://gitlab.tudelft.nl/ADMIRE_Public/safeincave/-/raw/v2/assets/logo_2.png?ref_type=heads",
+    # "https://gitlab.tudelft.nl/ADMIRE_Public/safeincave/-/raw/v2/assets/logo_2.png?ref_type=heads",
+    os.path.join("assets", "logo_safeincave.png"),
     width=300  # set pixel width
 )
+
 
 st.markdown(
 """

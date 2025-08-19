@@ -157,8 +157,119 @@ eq_eps_rate_i_0 = equation(
 	"eq_eps_rate_i_0"
 )
 
+st.markdown(
+	r"where $\delta\pmb{\sigma} = \pmb{\sigma}^{k+1} - \pmb{\sigma}^k$ and $\delta\omega_i = \omega_i^{k+1} - \omega_i^k$. "
+)
+
+st.info(
+	r"**_NOTE:_** The term $\frac{\partial \dot{\pmb{\varepsilon}}_i}{\partial \pmb{\sigma}}$ is a rank-4 tensor, while $\delta\pmb{\sigma}$ is arank-2, hence the double dot product between them, which results a rank-2 tensor. For further support on tensorial operations, check [here](https://youtu.be/w5KX3F_rdzU?si=QQLVBq1NcrvOiS32), and [here](https://youtu.be/JiN6jwp0RPk?si=K1Qhe3lAxJD4LI5w) for practical examples."
+)
+
+st.markdown(
+	r"The increment of state variable $\delta\omega_i$ can be obtained by defining a residual equation based on the evolution equation of $\omega_i$ and using Newton-Raphson to drive the residue to zero. Considering the residual equation is of the form $r_i = r_i(\pmb{\sigma}, \omega_i)$, it follows that" 
+)
+
+eq_res_0 = equation(
+	r"""
+	r_i^{k+1} = r_i^k + \frac{\partial r_i}{\partial \pmb{\sigma}} : \delta \pmb{\sigma} + \underbrace{\frac{\partial r_i}{\partial \omega_i}}_{h_i} \delta \omega_i = 0
+	\quad \rightarrow \quad
+	\delta \omega_i = - \frac{1}{h_i} \left( r_i^k + \frac{\partial r_i}{\partial \pmb{\sigma}} : \delta \pmb{\sigma} \right).
+	""",
+	"eq_res_0"
+)
+
+st.markdown(
+	f"Substituting Eq. ({eq_res_0}) into Eq. ({eq_eps_rate_i_0}) yields"
+)
+
+eq_eps_rate_i_1 = equation(
+	r"""
+	\dot{\pmb{\varepsilon}}_i^{k+1} = \dot{\pmb{\varepsilon}}_i^{k} 
+	+ \underbrace{\left( \frac{\partial \dot{\pmb{\varepsilon}}_i}{\partial \pmb{\sigma}} - \frac{1}{h_i} \frac{\partial \dot{\pmb{\varepsilon}}_i}{\partial \omega_i} \frac{\partial r_i}{\partial \pmb{\sigma}} \right)}_{\mathbb{G}_i} : \delta \pmb{\sigma}
+	- \underbrace{\frac{r_i^k}{h_i} \frac{\partial \dot{\pmb{\varepsilon}}_i}{\partial \omega_i}}_{\mathbf{B}_i}
+	\quad \rightarrow \quad
+	\dot{\pmb{\varepsilon}}_i^{k+1} = \dot{\pmb{\varepsilon}}_i^{k} + \mathbb{G}_i : \delta \pmb{\sigma} - \mathbf{B}_i.
+	""",
+	"eq_eps_rate_i_1"
+)
+
+st.markdown(
+	"Considering all non-elastic elements,"
+)
+
+eq_eps_rate_ne_0 = equation(
+	r"""
+	\dot{\pmb{\varepsilon}}_{ne}^{k+1}
+	=
+	\dot{\pmb{\varepsilon}}_{ne}^{k} + \mathbb{G}_{ne} : \delta \pmb{\sigma} - \mathbf{B}_{ne},
+	""",
+	"eq_eps_rate_ne_0"
+)
+
+st.markdown(
+	r"where $\mathbb{G}_{ne} = \sum_{i=1}^{N_{ne}} \mathbb{G}_i$ and $\mathbf{B}_{ne} = \sum_{i=1}^{N_{ne}} \mathbf{B}_i$."
+)
+
+st.markdown(
+	f"Finally, substituting Eq. ({eq_eps_rate_ne_0}) into Eq. ({eq_stress_2}) leads to"
+)
+
+eq_stress_3 = equation(
+	r"""
+	\pmb{\sigma}^{k+1} = \mathbb{C}_T : \left[ 
+		\pmb{\varepsilon}^{k+1} 
+		- \pmb{\varepsilon}_{ne}^k
+		+ \phi_2 \left( \mathbb{G}_{ne} : \pmb{\sigma}^k + \mathbf{B}_{ne} \right)
+	\right]
+	""",
+	"eq_stress_3"
+)
+
+st.markdown(
+	r"where $\pmb{\varepsilon}_{ne}^k = \pmb{\varepsilon}_{ne}^t + \phi_1 \dot{\pmb{\varepsilon}}_{ne}^t + \phi_1 \dot{\pmb{\varepsilon}}_{ne}^k$, and the consistent tangent matrix is given by"
+)
+
+eq_CT = equation(
+	r"\mathbb{C}_T = \left( \mathbb{C}_0^{-1} + \phi_2 \mathbb{G}_{ne} \right)^{-1}", "eq_CT"
+)
+
+st.markdown(
+	f"We can further simplify Eq. ({eq_CT}) by defining"
+)
+
+eq_eps_rhs = equation(
+	r"""
+	\pmb{\varepsilon}^k_\text{rhs} = \pmb{\varepsilon}_{ne}^k - \phi_2 \left( \mathbb{G}_{ne} : \pmb{\sigma}^k + \mathbf{B}_{ne} \right)
+	""",
+	"eq_eps_rhs"
+)
+
+st.markdown(
+	"In this manner, the stress tensor can be expressed as"
+)
+
+eq_stress_4 = equation(
+	r"\pmb{\sigma}^{k+1} = \mathbb{C}_T : \left( \pmb{\varepsilon}^{k+1} - \pmb{\varepsilon}^k_\text{rhs} \right)",
+	"eq_stress_4"
+)
+
+st.markdown(
+	"Finally, the linearized momentum balance equation reads"
+)
+
+eq_mom_1 = equation(
+	r"\nabla \cdot \mathbb{C}_T : \pmb{\varepsilon}^{k+1} = \mathbf{f} + \nabla \cdot \mathbb{C}_T : \pmb{\varepsilon}_\text{rhs}^k.",
+	"eq_mom_1"
+)
 
 
+
+
+
+
+
+
+	
 st.markdown(" ### Weak formulation")
 
 

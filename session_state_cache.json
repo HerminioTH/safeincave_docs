@@ -22,12 +22,19 @@
         "eq_trial_T": 20,
         "eq_test_T": 21,
         "eq_weak_heat_0": 22,
-        "eq_weak_heat_1": 1,
-        "eq_eps_i": 1,
-        "eq_eps_i_0": 1,
-        "eq_eps_i_1": 2,
-        "eq_stress_2": 1,
-        "eq_eps_rate_i_0": 1
+        "eq_weak_heat_1": 23,
+        "eq_eps_i_0": 24,
+        "eq_eps_i_1": 25,
+        "eq_stress_2": 26,
+        "eq_eps_rate_i_0": 27,
+        "eq_res_0": 28,
+        "eq_eps_rate_i_1": 29,
+        "eq_eps_rate_ne_0": 30,
+        "eq_stress_3": 31,
+        "eq_CT": 32,
+        "eq_eps_rhs": 33,
+        "eq_stress_4": 34,
+        "eq_mom_1": 35
     },
     "fig": {
         "fig_constitutive_model_0": 1
