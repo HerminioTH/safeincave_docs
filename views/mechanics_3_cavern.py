@@ -1,23 +1,67 @@
+import sys
+import os
 import streamlit as st
+sys.path.append(os.path.join("libs"))
+from Utils import ( equation,
+					figure,
+					create_fig_tag,
+					cite_eq,
+					cite_eq_ref,
+					save_session_state,
+)
+
+import plotly.express as px
+import numpy as np
+import pandas as pd
+
+from setup import run_setup
+
+run_setup()
 
 st.set_page_config(layout="wide") 
+
+
+st.markdown(" ## Example 3: Salt cavern")
+st.write("This example is located in our [repository](https://gitlab.tudelft.nl/ADMIRE_Public/safeincave).")
+
+st.markdown(" ## Goals")
+
+st.write(
+	"""
+	1. Solve equilibrium stage (initial condition)
+	2. Solve operation stage
+	3. Apply non-uniform Neumann boundary condition
+	4. Save custom fields.
+	""")
+
+
+
+
 st.markdown(" ## Problem description")
+
+fig_3_cavern_geom = create_fig_tag("fig_3_cavern_geom")
+
 st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+fig_3_cavern_geom = figure(os.path.join("assets", "3_cavern_geom.png"), "(a) Geometry and boundary names; (b) Axial load and confining pressure history; (c) Lists of values informed to the simulator.", "fig_3_cavern_geom", size=500)
+
+st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+fig_3_cavern_bcs = create_fig_tag("fig_3_cavern_bcs")
+
+fig_3_cavern_bcs = figure(os.path.join("assets", "3_cavern_bcs.png"), "(a) Geometry and boundary names; (b) Axial load and confining pressure history; (c) Lists of values informed to the simulator.", "fig_3_cavern_bcs", size=600)
+
+st.markdown(" ## Implementation")
 
 st.code(
 """
 import safeincave as sf
 import safeincave.Utils as ut
 import safeincave.MomentumBC as momBC
-from mpi4py import MPI
-import dolfinx as do
-import os
-import sys
-import ufl
-import torch as to
-import numpy as np
 from petsc4py import PETSc
-import time
+import dolfinx as do
+import torch as to
+import os
 """,
 language="python")
 
@@ -379,12 +423,6 @@ language="python")
 
 
 
-import plotly.express as px
-import numpy as np
-import pandas as pd
-import os
-import sys
-
 hour = 60*60
 day = 24*hour
 MPa = 1e6
@@ -524,22 +562,16 @@ def plot_cavern():
 		time_id = st.session_state["Time"]["index"]
 
 		fig_cavern = px.line()
-		# fig_cavern.update_xaxes(range=[0, 80])
 		fig_cavern.update_layout(yaxis={"scaleanchor": "x", "scaleratio": 1}, xaxis_title="x (m)", yaxis_title="z (m)")
 
 		mask = (df["Time"] == time_list[0])
 		fig_cavern.add_scatter(x=df[mask]["dx"], y=df[mask]["dz"], mode="lines+markers", line=dict(color="#5abcff"), marker=dict(size=10))
 		fig_cavern.data[1].name = "Initial shape"
 
-		# mask = (df["Time"] == time_list[-1])
-		# fig_cavern.add_scatter(x=df[mask]["dx"], y=df[mask]["dz"], mode="lines", line=dict(color='lightcoral'))
-		# fig_cavern.data[2].name = "Final shape"
-
 		mask = (df["Time"] == time_list[time_id])
 		fig_cavern.add_scatter(x=df[mask]["dx"], y=df[mask]["dz"], mode="lines", line=dict(color="#FF57AE"))
 		fig_cavern.data[2].name = "Current shape"
 
-		# event = col12.plotly_chart(fig_cavern, theme=None, on_select="rerun", selection_mode="points", use_container_width=True)
 		event = col12.plotly_chart(fig_cavern, theme="streamlit", on_select="rerun", selection_mode="points", use_container_width=True)
 
 		pt = event.selection["points"]
@@ -551,21 +583,6 @@ def plot_cavern():
 			marker_props = dict(color='red', size=8, symbol='0', line=dict(width=2, color='black'))
 			fig_cavern.add_scatter(x=[x], y=[z], mode="markers", line=dict(color='red'), marker=marker_props, showlegend=False)
 			fig_cavern.update_layout(clickmode="event+select")
-			# with col12:
-			# 	st.rerun()
-			# col12.plotly_chart(fig_cavern, theme="streamlit", use_container_width=True)
-			# col12.plotly_chart(fig_cavern, theme="streamlit", on_select="rerun", selection_mode="points", use_container_width=True)
-		# if len(pt) > 0:
-		# 	x = pt[0]["x"]
-		# 	y = pt[0]["y"]
-		# 	marker_props = dict(color='red', size=8, symbol='0', line=dict(width=2, color='black'))
-		# 	fig_cavern.add_scatter(x=[x], y=[y], mode="markers", line=dict(color='red'), marker=marker_props, showlegend=False)
-			# col12.plotly_chart(fig_cavern, theme="streamlit", on_select="rerun", selection_mode="points", use_container_width=True)
-
-		# print(event)
-		# print(event.selection)
-		# print(event.selection.get("points"))
-		# print(pt)
 
 def plot_stress_path():
 	col13.subheader(f"Stress path")
@@ -620,8 +637,7 @@ def load_time():
 		}
 
 
-st.set_page_config(layout="wide")
-st.title("Results Viewer")
+st.markdown(" ## Results Viewer")
 
 col11, col12, col13 = st.columns([1,1,1])
 col21, col22, col23 = st.columns([1,8,2])
@@ -636,3 +652,5 @@ plot_subsidence()
 plot_stress_path()
 plot_convergence()
 plot_gas_pressure()
+
+save_session_state()

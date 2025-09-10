@@ -39,6 +39,13 @@
     "fig": {
         "fig_constitutive_model_0": 1,
         "fig_1_cube_geom": 2,
-        "fig_1_cube_model": 3
+        "fig_1_cube_model": 3,
+        "fig_2_cube_regions_geom": 4,
+        "fig_2_cube_region_model": 5,
+        "fig_4_cavern_geom": 1,
+        "fig_1_cube_geom_bcs": 1,
+        "fig_3_cavern_geom": 1,
+        "fig_3_cavern_bcs": 2,
+        "fig_4_cavern_names": 2
     }
 }

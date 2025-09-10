@@ -1,23 +1,54 @@
+import sys
+import os
 import streamlit as st
+sys.path.append(os.path.join("libs"))
+from Utils import ( equation,
+					figure,
+					create_fig_tag,
+					cite_eq,
+					cite_eq_ref,
+					save_session_state,
+)
+from setup import run_setup
+
+run_setup()
 
 st.set_page_config(layout="wide") 
+
+
+
+st.markdown(" ## Example 2: Heat diffusion in salt cavern")
+st.write("This example is located in our [repository](https://gitlab.tudelft.nl/ADMIRE_Public/safeincave).")
+
+st.markdown(" ## Goals")
+
+st.write(
+	"""
+	1. Set constitutive models to overburden and salt formations
+	2. Calculate lithostatic pressure
+	""")
+
+
 st.markdown(" ## Problem description")
+
+fig_2_cavern_geom_bcs = create_fig_tag("fig_2_cavern_geom_bcs")
+
 st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+fig_2_cavern_geom_bcs = figure(os.path.join("assets", "thermal", "2_cavern_geom_bcs.png"), "Geometry and boundary conditions", "fig_2_cavern_geom_bcs", size=600)
+
+
+
 
 st.code(
 """
 import safeincave as sf
 import safeincave.Utils as ut
 import safeincave.HeatBC as heatBC
-from mpi4py import MPI
-import dolfinx as do
-import os
-import sys
-import ufl
-import torch as to
-import numpy as np
+import safeincave.MomentumBC as momBC
 from petsc4py import PETSc
-import time
+import torch as to
+import os
 """,
 language="python")
 
@@ -100,8 +131,8 @@ st.code(
 """
 km = 1000
 dTdZ = 27/km
-T_top = 273 + 20
-T_gas = 273 + 10
+T_top = 293
+T_gas = 283
 h_conv = 5.0
 """,
 language="python")

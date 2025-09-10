@@ -1,15 +1,63 @@
+import sys
+import os
 import streamlit as st
+sys.path.append(os.path.join("libs"))
+from Utils import ( equation,
+					figure,
+					create_fig_tag,
+					cite_eq,
+					cite_eq_ref,
+					save_session_state,
+)
+from setup import run_setup
+
+run_setup()
 
 st.set_page_config(layout="wide") 
+
+
+st.markdown(" ## Example 2: Cube with two regions")
+st.write("This example is located in our [repository](https://gitlab.tudelft.nl/ADMIRE_Public/safeincave).")
+
+st.markdown(" ## Goals")
+
+st.write(
+	"""
+	1. Define material properties to different regions
+	""")
+
 st.markdown(" ## Problem description")
+
+fig_2_cube_regions_geom = create_fig_tag("fig_2_cube_regions_geom")
+
+
 st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+fig_2_cube_regions_geom = figure(os.path.join("assets", "2_cube_regions_geom.png"), "(a) Boundary names; (b) Region names; (c) Axial load and confining pressure.", "fig_2_cube_regions_geom", size=800)
+
+
+
+
+fig_2_cube_region_model = create_fig_tag("fig_2_cube_region_model")
+
+st.write(f"As illustrated in Fig. {fig_2_cube_region_model}, the constitutive model consists of an elastic element (spring) and a viscoelastic (kelvin) element.")
+
+fig_2_cube_region_model = figure(os.path.join("assets", "2_cube_regions_model.png"), "Constitutive model composition for the triaxial problem.", "fig_2_cube_region_model", size=300)
+
+
+
+
+
+st.markdown(" ### Implementation")
+
+st.write("Import relevant packages. Note that the only reason to import package *dolfinx* here is to initialize the custom fields to be saved during the simulation, as explained next.")
+
 
 st.code(
 """
 from safeincave import *
 import safeincave.Utils as ut
 import safeincave.MomentumBC as momBC
-from mpi4py import MPI
 from petsc4py import PETSc
 import torch as to
 import os
@@ -190,4 +238,8 @@ sim = Simulator_M(mom_eq, t_control, outputs, True)
 sim.run()
 """,
 language="python")
+
+
+
+save_session_state()
 

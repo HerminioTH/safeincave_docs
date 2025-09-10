@@ -1,8 +1,47 @@
+import sys
+import os
 import streamlit as st
+sys.path.append(os.path.join("libs"))
+from Utils import ( equation,
+					figure,
+					create_fig_tag,
+					cite_eq,
+					cite_eq_ref,
+					save_session_state,
+)
+from setup import run_setup
+
+run_setup()
 
 st.set_page_config(layout="wide") 
+
+
+
+st.markdown(" ## Example 4: Salt cavern with overburden")
+st.write("This example is located in our [repository](https://gitlab.tudelft.nl/ADMIRE_Public/safeincave).")
+
+st.markdown(" ## Goals")
+
+st.write(
+	"""
+	1. Set constitutive models to overburden and salt formations
+	2. Calculate lithostatic pressure
+	""")
+
+
 st.markdown(" ## Problem description")
+
+fig_4_cavern_geom = create_fig_tag("fig_4_cavern_geom")
+
 st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+fig_4_cavern_geom = figure(os.path.join("assets", "4_cavern_geom.png"), "Geometry and temperature profile", "fig_4_cavern_geom", size=500)
+
+fig_4_cavern_names = create_fig_tag("fig_4_cavern_names")
+
+st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+fig_4_cavern_names = figure(os.path.join("assets", "4_cavern_names.png"), "Geometry and temperature profile", "fig_4_cavern_names", size=700)
 
 st.code(
 """
@@ -13,11 +52,8 @@ from mpi4py import MPI
 import dolfinx as do
 import os
 import sys
-import ufl
 import torch as to
-import numpy as np
 from petsc4py import PETSc
-import time
 """,
 language="python")
 
@@ -26,18 +62,6 @@ st.code(
 GPa = ut.GPa
 MPa = ut.MPa
 day = ut.day
-""",
-language="python")
-
-st.code(
-"""
-def get_geometry_parameters(path_to_grid):
-	f = open(os.path.join(path_to_grid, "geom.geo"), "r")
-	data = f.readlines()
-	ovb_thickness = float(data[10][len("ovb_thickness = "):-2])
-	salt_thickness = float(data[11][len("salt_thickness = "):-2])
-	hanging_wall = float(data[12][len("hanging_wall = "):-2])
-	return ovb_thickness, salt_thickness, hanging_wall
 """,
 language="python")
 
@@ -167,6 +191,18 @@ bc_south_salt = momBC.DirichletBC(boundary_name="South_salt", component=1, value
 bc_south_ovb = momBC.DirichletBC(boundary_name="South_ovb", component=1, values=[0.0, 0.0], time_values=[0.0, tc_eq.t_final])
 bc_north_salt = momBC.DirichletBC(boundary_name="North_salt", component=1, values=[0.0, 0.0], time_values=[0.0, tc_eq.t_final])
 bc_north_ovb = momBC.DirichletBC(boundary_name="North_ovb", component=1, values=[0.0, 0.0], time_values=[0.0, tc_eq.t_final])
+""",
+language="python")
+
+st.code(
+"""
+def get_geometry_parameters(path_to_grid):
+	f = open(os.path.join(path_to_grid, "geom.geo"), "r")
+	data = f.readlines()
+	ovb_thickness = float(data[10][len("ovb_thickness = "):-2])
+	salt_thickness = float(data[11][len("salt_thickness = "):-2])
+	hanging_wall = float(data[12][len("hanging_wall = "):-2])
+	return ovb_thickness, salt_thickness, hanging_wall
 """,
 language="python")
 
@@ -320,3 +356,5 @@ sim = sf.Simulator_M(mom_eq, tc_op, outputs, False)
 sim.run()
 """,
 language="python")
+
+save_session_state()

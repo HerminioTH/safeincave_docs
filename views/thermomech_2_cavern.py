@@ -1,8 +1,47 @@
+import sys
+import os
 import streamlit as st
+sys.path.append(os.path.join("libs"))
+from Utils import ( equation,
+					figure,
+					create_fig_tag,
+					cite_eq,
+					cite_eq_ref,
+					save_session_state,
+)
+from setup import run_setup
+
+run_setup()
 
 st.set_page_config(layout="wide") 
+
+st.markdown(" ## Example 1: Thermal effects in salt caverns")
+st.write("This example is located in our [repository](https://gitlab.tudelft.nl/ADMIRE_Public/safeincave).")
+
+st.markdown(" ## Goals")
+
+st.write(
+	"""
+	1. Set constitutive models to overburden and salt formations
+	2. Calculate lithostatic pressure
+	""")
+
+
 st.markdown(" ## Problem description")
 st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+
+fig_2_cavern_geom = create_fig_tag("fig_2_cavern_geom")
+
+st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+fig_2_cavern_geom = figure(os.path.join("assets", "thermomechanics", "2_cavern_geom.png"), "Geometry and temperature profile", "fig_2_cavern_geom", size=500)
+
+fig_2_cavern_bcs = create_fig_tag("fig_2_cavern_bcs")
+
+st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+
+fig_2_cavern_bcs = figure(os.path.join("assets", "thermomechanics", "2_cavern_bcs.png"), "Geometry and temperature profile", "fig_2_cavern_bcs", size=700)
 
 st.code(
 """
@@ -10,15 +49,10 @@ import safeincave as sf
 import safeincave.Utils as ut
 import safeincave.HeatBC as heatBC
 import safeincave.MomentumBC as momBC
-from mpi4py import MPI
-import dolfinx as do
 import os
 import sys
-import ufl
 import torch as to
-import numpy as np
 from petsc4py import PETSc
-import time
 """,
 language="python")
 
