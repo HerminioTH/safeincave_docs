@@ -74,6 +74,16 @@ grid = GridHandlerGMSH("geom", grid_path)
 """,
 language="python")
 
+st.write("Define output folder where the simulation results will be saved.")
+
+st.code(
+"""
+output_folder = os.path.join("output", "case_0")
+""",
+language="python")
+
+
+
 st.write("Create an equally spaced time discretization with time step size of 0.01 hour and final time of 1.0 hour. For this purpose, we use class **TimeController**.")
 
 st.code(
@@ -90,7 +100,7 @@ mom_eq = LinearMomentum(grid, theta=0.5)
 """,
 language="python")
 
-st.write("Define Conjugate Gradient solver with Additive Schwartz preconditioner.")
+st.write("Define solver for momentum balance equation. Choose Conjugate Gradient as a linear solver with Additive Schwartz preconditioner.")
 
 st.info(
 	r"**_NOTE:_** The reason we use Additive Schwartz Method here is because it works well in series and parallel. For instance, incomplete LU factorization (ILU) works well with serial computations, but not in parallel."
@@ -102,11 +112,18 @@ mom_solver = PETSc.KSP().create(grid.mesh.comm)
 mom_solver.setType("bicg")
 mom_solver.getPC().setType("asm")
 mom_solver.setTolerances(rtol=1e-12, max_it=100)
-mom_eq.set_solver(mom_solver)
 """,
 language="python")
 
 st.write("Set solver to momentum equation object.")
+
+st.code(
+"""
+mom_eq.set_solver(mom_solver)
+""",
+language="python")
+
+st.write("Initialize **Material** object, which contains all material properties and the constitutive model.")
 
 st.code(
 """

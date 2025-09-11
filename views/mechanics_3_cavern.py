@@ -41,17 +41,29 @@ st.markdown(" ## Problem description")
 
 fig_3_cavern_geom = create_fig_tag("fig_3_cavern_geom")
 
-st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
+st.write(f"In this example we illustrate how to set up a basic simulation for gas storage in a salt cavern. We take advantage of radial symmetry and only consider a quarter of the domain around a single cavern, as illustrated in Fig. {fig_3_cavern_geom}-a, where the dimensions of the mesh are also shown. In Fig. {fig_3_cavern_geom}-b, the boundary and region names are indicated.")
 
 fig_3_cavern_geom = figure(os.path.join("assets", "3_cavern_geom.png"), "(a) Geometry and boundary names; (b) Axial load and confining pressure history; (c) Lists of values informed to the simulator.", "fig_3_cavern_geom", size=500)
 
-st.write("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.")
-
 fig_3_cavern_bcs = create_fig_tag("fig_3_cavern_bcs")
+
+st.write(f"For this problem, only the salt layer is considered, so a load of 10 MPa is applied on the *Top* boundary to represent the presence of an overburden. The sideburden is applied on faces *East* and *North* as following the lithostatic pressure, as shown in Fig. {fig_3_cavern_bcs}-a. Faces *Bottom*, *West*, and *South* are prevented from normal displacement. The value of the gas pressure is specified at the cavern's roof, and it varies in time according to the graph in Fig. {fig_3_cavern_bcs}-b. Moreover, the gas pressure increases from the roof to the bottom of the cavern according to the gas specific weight.")
+
 
 fig_3_cavern_bcs = figure(os.path.join("assets", "3_cavern_bcs.png"), "(a) Geometry and boundary names; (b) Axial load and confining pressure history; (c) Lists of values informed to the simulator.", "fig_3_cavern_bcs", size=600)
 
+fig_3_cavern_model = create_fig_tag("fig_3_cavern_model")
+
+st.write(f"The constitutive model for this example includes a viscoplastic element to represent transient creep, a viscoelastic element for reverse transient creep, and a dashpot to describe dislocation creep deformation. This is illustrated in Fig. {fig_3_cavern_model}.")
+
+
+fig_3_cavern_model = figure(os.path.join("assets", "mechanics", "3_cavern_model.png"), "Constitutive model.", "fig_3_cavern_model", size=400)
+
+
+
 st.markdown(" ## Implementation")
+
+st.write("Import the usual packages, including dolfinx. The reason we import dolfinx here is to define a sub class of **LinearMomentum** so that we can save some custom fields, such as viscoplastic strains, yield function, and hardening parameter values.")
 
 st.code(
 """
@@ -64,6 +76,8 @@ import torch as to
 import os
 """,
 language="python")
+
+st.write("Define the modified **LinearMomentum** class, where the internal fields *Fvp*, *alpha*, and *eps_vp* are initialized. See [Example 1: Triaxial](mechanics_1_triaxial) for further details on this procedure.")
 
 st.code(
 """
@@ -87,6 +101,8 @@ class LinearMomentumMod(sf.LinearMomentum):
 """,
 language="python")
 
+st.write("Define grid path and create grid object.")
+
 st.code(
 """
 grid_path = os.path.join("..", "..", "..", "grids", "cavern_irregular")
@@ -94,11 +110,15 @@ grid = sf.GridHandlerGMSH("geom", grid_path)
 """,
 language="python")
 
+st.write("Define output folder where the simulation results will be saved.")
+
 st.code(
 """
-output_folder = os.path.join("output", "case_2")
+output_folder = os.path.join("output", "case_0")
 """,
 language="python")
+
+st.write(r"Initialize object for the modified momentum balance equation (**LinearMomentumMod**) and choose Crank-Nicolson as a time integration scheme ($\theta=0.5$).")
 
 st.code(
 """
@@ -106,21 +126,27 @@ mom_eq = LinearMomentumMod(grid, theta=0.5)
 """,
 language="python")
 
+st.write("Define solver for momentum balance equation, choose Conjugate Gradient as a linear solver with Additive Schwartz preconditioner, and set this solver to the momentum balance equation object, *mom_eq*.")
+
 st.code(
 """
 mom_solver = PETSc.KSP().create(grid.mesh.comm)
-mom_solver.setType("bicg")
+mom_solver.setType("cg")
 mom_solver.getPC().setType("asm")
 mom_solver.setTolerances(rtol=1e-12, max_it=100)
 mom_eq.set_solver(mom_solver)
 """,
 language="python")
 
+st.write("Initialize **Material** object, which will contain all material properties and the constitutive model.")
+
 st.code(
 """
 mat = sf.Material(mom_eq.n_elems)
 """,
 language="python")
+
+st.write(r"Define a uniform salt density of 2000 kg$/$m$^3$ and set it to the **Material** object.")
 
 st.code(
 """
@@ -130,6 +156,8 @@ mat.set_density(rho)
 """,
 language="python")
 
+st.write(r"Define uniform elastic properties and create a **Spring** element.")
+
 st.code(
 """
 E0 = 102*ut.GPa*to.ones(mom_eq.n_elems)
@@ -137,6 +165,8 @@ nu0 = 0.3*to.ones(mom_eq.n_elems)
 spring_0 = sf.Spring(E0, nu0, "spring")
 """,
 language="python")
+
+st.write(r"Define uniform viscoelastic properties and create a **Viscoelastic** element.")
 
 st.code(
 """
@@ -147,6 +177,8 @@ kelvin = sf.Viscoelastic(eta, E1, nu1, "kelvin")
 """,
 language="python")
 
+st.write(r"Define uniform dislocation creep properties and create a **DislocationCreep** element.")
+
 st.code(
 """
 A = 1.9e-20*to.ones(mom_eq.n_elems)
@@ -156,6 +188,8 @@ creep_0 = sf.DislocationCreep(A, Q, n, "creep")
 """,
 language="python")
 
+st.write(r"Add object *spring_0* to the list of elastic elements of *mat*, and objects *kelvin* and *creep_0* to the list of non-elastic elements of *mat*.")
+
 st.code(
 """
 mat.add_to_elastic(spring_0)
@@ -164,11 +198,15 @@ mat.add_to_non_elastic(creep_0)
 """,
 language="python")
 
+st.write("Set material to the momentum equation object.")
+
 st.code(
 """
 mom_eq.set_material(mat)
 """,
 language="python")
+
+st.write("Define gravity acceleration vector and assign it to *mom_eq* so it builds the body force terms.")
 
 st.code(
 """
@@ -178,6 +216,8 @@ mom_eq.build_body_force(g_vec)
 """,
 language="python")
 
+st.write("Define an uniform temperature field of 298 K and assign it to both initial and current temperature.")
+
 st.code(
 """
 T0_field = 298*to.ones(mom_eq.n_elems)
@@ -186,11 +226,18 @@ mom_eq.set_T(T0_field)
 """,
 language="python")
 
+st.markdown(" ### Equilibrium stage")
+
+st.write("For the equilibrium stage, we run the simulation at a constant gas pressure of 10 MPa (defined at the cavern's roof) for a period of 10 hours and a time step size of 0.5 hous. For this, we use **TimeController** to create an equally spaced time discretization.")
+
 st.code(
 """
 tc_equilibrium = sf.TimeController(dt=0.5, initial_time=0.0, final_time=10, time_unit="hour")
 """,
 language="python")
+
+
+st.write("As mentioned in the introduction, zero normal displacement is imposed on faces *West*, *South*, and *Bottom*.")
 
 st.code(
 """
@@ -198,14 +245,28 @@ bc_west = momBC.DirichletBC(boundary_name = "West",
 					component = 0,
 					values = [0.0, 0.0],
 					time_values = [0.0, tc_equilibrium.t_final])
-bc_bottom = momBC.DirichletBC(boundary_name = "Bottom", 
-					component = 2,
-					values = [0.0, 0.0],
-					time_values = [0.0, tc_equilibrium.t_final])
 bc_south = momBC.DirichletBC(boundary_name = "South", 
 					component = 1,
 					values = [0.0, 0.0],
 					time_values = [0.0, tc_equilibrium.t_final])
+bc_bottom = momBC.DirichletBC(boundary_name = "Bottom", 
+					component = 2,
+					values = [0.0, 0.0],
+					time_values = [0.0, tc_equilibrium.t_final])
+""",
+language="python")
+
+st.write("The sideburden is applied on faces *East* and *North* following the lithostatic pressure, that is,")
+
+eq_litho = equation(
+	r"p(z) = \text{values} + \text{density} * g * (\text{ref\_pos} - z) = 10\text{ MPa} + 2000*9.81*(660 - z)",
+	"eq_litho"
+)
+
+st.write(f"According to Eq. ({eq_litho}), the lithostatic pressure increases with the *z* direction. This is informed to **NeumannBC** class by the argument *direction=2*. Additionally, we emphasize that *ref_pos* is the position where *values* is specified. In this case, we specify 10 MPa (*values*) at position *z=660* m (*ref_pos*).")
+
+st.code(
+"""
 side_burden = 10.0*ut.MPa
 bc_east = momBC.NeumannBC(boundary_name = "East",
 					direction = 2,
@@ -221,6 +282,13 @@ bc_north = momBC.NeumannBC(boundary_name = "North",
 					values = [side_burden, side_burden],
 					time_values = [0.0, tc_equilibrium.t_final],
 					g = g_vec[2])
+""",
+language="python")
+
+st.write(f"For the *Top* boundary, a uniform overburden of 10 MPa is imposed. Since this boundary is located at constant *z=660* m, Eq. {eq_litho} will always return 10 MPa. But this is only true if the argument *direction* is set to 2 below. If the user inadvertently changes *direction* to 0 or 1, then the overburden will vary in space. To make sure this does not happen, we set *density* to 0 for the **NeumannBC** on the *Top* boundary.")
+
+st.code(
+"""
 over_burden = 10.0*ut.MPa
 bc_top = momBC.NeumannBC(boundary_name = "Top",
 					direction = 2,
@@ -229,6 +297,13 @@ bc_top = momBC.NeumannBC(boundary_name = "Top",
 					values = [over_burden, over_burden],
 					time_values = [0.0, tc_equilibrium.t_final],
 					g = g_vec[2])
+""",
+language="python")
+
+st.write(f"For the equilibrium stage, a constant gas pressure of 10 MPa is applied on the *Cavern* walls. As with the sideburden, the gas pressure also increases with the *z* direction (i.e., *direction=2*), but following the specific weight of gas (*gas_density*).")
+
+st.code(
+"""
 gas_density = 0.082
 p_gas = 10.0*ut.MPa
 bc_cavern = momBC.NeumannBC(boundary_name = "Cavern",
@@ -241,6 +316,8 @@ bc_cavern = momBC.NeumannBC(boundary_name = "Cavern",
 					g = g_vec[2])
 """,
 language="python")
+
+st.write("Create a **BcHandler** object and add the above defined boundary conditions to it.")
 
 st.code(
 """
@@ -255,17 +332,27 @@ bc_equilibrium.add_boundary_condition(bc_cavern)
 """,
 language="python")
 
+st.write("Set the **BcHandler** object to the momentum balance equation object, *mom_eq*.")
+
 st.code(
 """
 mom_eq.set_boundary_conditions(bc_equilibrium)
 """,
 language="python")
 
+st.write("Define output folder to save the results of the equilibrium stage simulation.")
+
+st.info(
+	r"**_NOTE:_** Saving the equilibrium stage results is optional."
+)
+
 st.code(
 """
 ouput_folder_equilibrium = os.path.join(output_folder, "equilibrium")
 """,
 language="python")
+
+st.write("Choose fields to be saved during the equilibrium stage simulation.")
 
 st.code(
 """
@@ -279,6 +366,8 @@ output_mom.add_output_field("q_elems", "Von Mises stress (Pa)")
 outputs = [output_mom]
 """,
 language="python")
+
+st.write("Create the mechanical simulator **Simulator_M** and run the simulation for the equilibrium stage.")
 
 st.code(
 """
