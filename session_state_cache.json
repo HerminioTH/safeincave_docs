@@ -35,7 +35,7 @@
         "eq_eps_rhs": 33,
         "eq_stress_4": 34,
         "eq_mom_1": 35,
-        "eq_litho": 36
+        "eq_litho": 1
     },
     "fig": {
         "fig_constitutive_model_2": 1,
@@ -49,6 +49,13 @@
         "fig_3_cavern_model": 9,
         "fig_4_cavern_geom": 10,
         "fig_4_cavern_names": 11,
-        "fig_1_cube_geom_bcs": 12
+        "fig_4_cavern_model": 12,
+        "fig_4_cavern_litho_p": 13,
+        "fig_1_cube_geom_bcs": 14,
+        "fig_2_cavern_geom_bcs": 15,
+        "fig_1_cube_names": 16,
+        "fig_1_cube_bcs": 17,
+        "fig_2_cavern_geom": 18,
+        "fig_2_cavern_bcs": 19
     }
 }

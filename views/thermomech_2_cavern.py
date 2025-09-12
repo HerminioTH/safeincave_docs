@@ -437,3 +437,5 @@ sim = sf.Simulator_TM(mom_eq, heat_eq, tc_operation, outputs, False)
 sim.run()
 """,
 language="python")
+
+save_session_state()

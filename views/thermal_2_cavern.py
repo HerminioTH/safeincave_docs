@@ -181,3 +181,5 @@ sim = sf.Simulator_T(heat_eq, t_control, outputs, True)
 sim.run()
 """,
 language="python")
+
+save_session_state()
