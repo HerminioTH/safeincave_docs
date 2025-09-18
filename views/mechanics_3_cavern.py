@@ -22,7 +22,7 @@ st.set_page_config(layout="wide")
 
 
 st.markdown(" ## Example 3: Salt cavern")
-st.write("This example is located in our [repository](https://gitlab.tudelft.nl/ADMIRE_Public/safeincave).")
+st.write("This example is located in our [repository](https://github.com/ADMIRE-Public/SafeInCave).")
 
 st.markdown(" ## Goals")
 
@@ -31,7 +31,8 @@ st.write(
 	1. Solve equilibrium stage (initial condition)
 	2. Solve operation stage
 	3. Apply non-uniform Neumann boundary condition
-	4. Save custom fields.
+	4. Retrieve stress field from **LinearMomentum** object
+	5. Save custom fields.
 	""")
 
 

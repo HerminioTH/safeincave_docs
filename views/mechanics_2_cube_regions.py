@@ -17,7 +17,7 @@ st.set_page_config(layout="wide")
 
 
 st.markdown(" ## Example 2: Cube with two regions")
-st.write("This example is located in our [repository](https://gitlab.tudelft.nl/ADMIRE_Public/safeincave).")
+st.write("This example is located in our [repository](https://github.com/ADMIRE-Public/SafeInCave).")
 
 st.markdown(" ## Goals")
 

@@ -56,6 +56,9 @@
         "fig_1_cube_names": 16,
         "fig_1_cube_bcs": 17,
         "fig_2_cavern_geom": 18,
-        "fig_2_cavern_bcs": 19
+        "fig_2_cavern_bcs": 19,
+        "fig_1_cube_plot": 1,
+        "fig_2_cavern_p_gas": 1,
+        "fig_2_cavern_model": 1
     }
 }

@@ -166,7 +166,7 @@ st.info(
 )
 
 st.markdown(
-	r"The increment of state variable $\delta\omega_i$ can be obtained by defining a residual equation based on the evolution equation of $\omega_i$ and using Newton-Raphson to drive the residue to zero. Considering the residual equation is of the form $r_i = r_i(\pmb{\sigma}, \omega_i)$, it follows that" 
+	r"The increment of state variable $\delta\omega_i$ can be obtained by defining a residual equation based on the evolution equation of $\omega_i$ and using Newton-Raphson to drive the residual to zero. Considering the residual equation is of the form $r_i = r_i(\pmb{\sigma}, \omega_i)$, it follows that" 
 )
 
 eq_res_0 = equation(
@@ -178,8 +178,14 @@ eq_res_0 = equation(
 	"eq_res_0"
 )
 
+st.info(
+	r"""**_NOTE:_** Currently, only the viscoplastic element uses a state variable (the hardening parameter, $\alpha$). For this case, the residual equation would read $r(\alpha) = \alpha - a_1 \left[ \left( a_1 / \alpha_0 \right)^{1/\eta} + \xi \right]^{-1}$.
+
+	"""
+)
+
 st.markdown(
-	f"Substituting Eq. ({eq_res_0}) into Eq. ({eq_eps_rate_i_0}) yields"
+	f"Substituting Eq. ({eq_res_0}) into Eq. ({eq_eps_rate_i_0})" + r" to eliminate $\delta\omega_i$ yields"
 )
 
 eq_eps_rate_i_1 = equation(
@@ -234,7 +240,7 @@ eq_CT = equation(
 )
 
 st.markdown(
-	f"We can further simplify Eq. ({eq_CT}) by defining"
+	f"We can further simplify Eq. ({eq_stress_3}) by defining"
 )
 
 eq_eps_rhs = equation(
