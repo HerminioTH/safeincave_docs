@@ -138,7 +138,9 @@ st.write("Create Kelvin-Voigt viscoelastic element.")
 
 st.code(
 """
-eta = 105e11*to.ones(mom_eq.n_elems)
+eta = to.zeros(mom_eq.n_elems)
+eta[ind_salt] = 105e11
+eta[ind_ovb] = 105e20
 E1 = 10*GPa*to.ones(mom_eq.n_elems)
 nu1 = 0.32*to.ones(mom_eq.n_elems)
 kelvin = sf.Viscoelastic(eta, E1, nu1, "kelvin")
