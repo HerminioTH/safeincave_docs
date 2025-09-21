@@ -41,7 +41,7 @@ st.write("Install SafeInCave by executing:")
 st.code(
 """sudo apt install python3-pip
 pip install --upgrade pip
-pip3 install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple safeincave""", 
+pip3 install safeincave""", 
 language="bash")
 
 
@@ -83,7 +83,7 @@ st.code(
 sudo apt update
 sudo apt install python3-pip
 pip install --upgrade pip
-pip3 install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple safeincave""", 
+pip3 install safeincave""", 
 language="bash")
 
 st.write("Finally, make sure *libxft2* and *libxinerama1* are installed before running safeincave.")
