@@ -84,7 +84,7 @@ pip install --upgrade pip
 pip3 install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple safeincave""", 
 language="bash")
 
-st.write("Finally, install *libxft2* before running safeincave.")
+st.write("Finally, make sure *libxft2* is installed before running safeincave.")
 
 st.code(
 """sudo apt-get install libxft2""", 

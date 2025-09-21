@@ -18,7 +18,8 @@ pg = st.navigation(
 	{
 		"Info": [
 			st.Page(page="views/land.py", title="Home", icon=":material/home:", default=True), 
-			st.Page(page="views/about.py", title="About", icon=":material/info_i:")
+			st.Page(page="views/about.py", title="About", icon=":material/info_i:"),
+			st.Page(page="views/api.py", title="API Documentation", icon=":material/menu_book:"),
 		],
 		"Getting started": [
 			st.Page(page="views/installation.py", title="Installation")
