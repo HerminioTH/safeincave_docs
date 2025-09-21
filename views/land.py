@@ -138,6 +138,11 @@ See SafeInCave [documentation](https://safeincave-docs.streamlit.app/installatio
 
 ---
 
+## Official repository
+The source-code of SafeInCave is available in our [GitHub repository](https://github.com/ADMIRE-Public/SafeInCave). The user is advised to download or *git clone* the repository and check the examples therein.
+
+---
+
 ## Getting started
 After installation, the easiest way to set up SafeInCave simulations is by using the SafeInCave App, as shown in the image below.
 """
