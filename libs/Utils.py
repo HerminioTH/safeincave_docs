@@ -26,7 +26,7 @@ def create_fig_tag(tag):
 
 def equation(eq, tag):
 	eq_num = create_eq_tag(tag)
-	st.latex(fr"{eq}" + r"\tag{" + str(eq_num) + r"}")
+	st.latex(fr"{eq} \quad \quad \quad \quad \quad" + r"\tag{" + str(eq_num) + r"}")
 	return eq_num
 
 def figure(fig, caption, tag, size=500):

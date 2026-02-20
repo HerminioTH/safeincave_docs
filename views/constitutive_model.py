@@ -18,6 +18,9 @@ run_setup()
 st.set_page_config(layout="wide") 
 st.markdown(" # Constitutive Model")
 
+
+fig_constitutive_model_2 = figure(os.path.join("assets", "constitutive_model_2.png"), "General representation of a constitutive model.", "fig_constitutive_model_2", size=600)
+
 fig_constitutive_model_0 = create_fig_tag("fig_constitutive_model_0")
 
 st.write(
@@ -38,7 +41,6 @@ st.write(
 	f"All these different types of elements can be arbitrarily combined as illustrated in Fig. {fig_constitutive_model_0}. "
 )
 
-# The viscoplastic element refers to the model proposed by Desai and Varadarajan (1987) :cite:`desai1987constitutive` and used in Khaledi *et al* (2016) :cite:`khaledi2016stability` for salt caverns. This element can be represented by a parallel arrangement between a dashpot, which represents the time dependency, and a friction element, which indicates that the dashpot will only move if the stresses exceed a certain threshold (the yield surface). As shown below, this dashpot also includes a hardening rule that expands the yield surface. Finally, the dislocation creep element is represented by a single dashpot, that starts to deform as soon as a non-zero deviatoric stress is applied. Moreover, this element has a non-linear dependency on stress.
 
 fig_constitutive_model_0 = figure(os.path.join("assets", "constitutive_model_1.png"), "General representation of a constitutive model.", "fig_constitutive_model_0", size=600)
 
@@ -177,7 +179,7 @@ st.write(
 st.markdown(" ## Thermal strain element")
 
 st.write(
-	f"The thermal strain element is represented in Fig. {fig_constitutive_model_0} as a ballon that only responds to temperature variations $\Delta T$, not stress."+
+	fr"The thermal strain element is represented in Fig. {fig_constitutive_model_0} as a ballon that only responds to temperature variations $\Delta T$, not stress."+
 	" The termal strain is given by"
 )
 

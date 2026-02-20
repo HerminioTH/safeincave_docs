@@ -3,7 +3,11 @@ import streamlit as st
 st.set_page_config(layout="wide") 
 st.markdown(" # Installation")
 
-st.write("This section will walk you through the installation process of the SafeInCave simulator on your system. Since SafeInCave is based on FEniCSx, it can only be installed on Ubuntu and MacOS systems. If you use Windows, first install Windows Subsystem for Linux (WSL) and then install Ubuntu on it. Next, install [FEniCSx](https://fenicsproject.org/), and finally the [safeincave](https://test.pypi.org/project/safeincave/) package.")
+st.write("This section will walk you through the installation process of the SafeInCave simulator on your system. " \
+"Since SafeInCave is based on FEniCSx, it can only be installed on Ubuntu and MacOS systems. If you use Windows, " \
+"first install Windows Subsystem for Linux (WSL) and then install Ubuntu on it. Next, install [FEniCSx](https://fenicsproject.org/), "
+"and finally the [safeincave](https://test.pypi.org/project/safeincave/) package.")
+
 
 st.markdown(" ## Install WSL + Ubuntu")
 st.info(
@@ -26,28 +30,11 @@ language="powershell")
 st.write("Choose a username and a password. You will notice that PowerShell suddenly becomes a Ubuntu terminal.")
 
 
-st.markdown(" ## Option 1: FEniCSx + SafeInCave")
+st.markdown(" ## Install Conda + FEniCSx + SafeInCave")
 
-st.write("Install FEniCSx, as described [here](https://fenicsproject.org/download/). Open Ubuntu terminal and execute:")
-
-st.code(
-"""sudo add-apt-repository ppa:fenics-packages/fenics
-sudo apt update
-sudo apt install fenicsx""", 
-language="bash")
-
-st.write("Install SafeInCave by executing:")
-
-st.code(
-"""sudo apt install python3-pip
-pip install --upgrade pip
-pip3 install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple safeincave""", 
-language="bash")
-
-
-st.markdown(" ## Option 2: Conda + FEniCSx + SafeInCave")
-
-st.write("Use conda to avoid conflicts with other packages on your system. Download Miniconda3-py310_25.5.1-0-Linux-x86_64.sh from https://repo.anaconda.com/miniconda/ and save it in your Ubuntu home/user_name directory. In this same directory, execute:")
+st.write("Use conda to avoid conflicts with other packages on your system. " \
+"Download Miniconda3-py310_25.5.1-0-Linux-x86_64.sh from https://repo.anaconda.com/miniconda/ "
+"and save it in your Ubuntu home/user_name directory. In this same directory, execute:")
 
 st.code(
 """bash Miniconda3-py310_25.3.1-1-Linux-x86_64.sh""", 
@@ -59,7 +46,7 @@ st.code(
 """conda activate""",
 language="bash")
 
-st.write("You should notice the tag (base) in your command line. Let's create a new environment:")
+st.write("You should notice the tag (base) in your command line. Let's create a new environment named **safe**:")
 
 st.code(
 """
@@ -68,25 +55,32 @@ conda activate safe""",
 language="bash")
 
 st.write("The tag (safe) should now appear in the command line.")
-st.write("To install FEniCSx using conda, as described [here](https://fenicsproject.org/download/), execute:")
+# st.write("To install FEniCSx using conda, as described [here](https://fenicsproject.org/download/), execute:")
+st.write("SafeInCave currently uses FEniCSx v0.9.0, so make sure to install this version. To install FEniCS v0.9.0" \
+"using conda (as described [here](https://fenicsproject.org/download/)), executed:")
 
 st.code(
 """
-conda install -c conda-forge fenics-dolfinx mpich pyvista
+conda install -c conda-forge fenics-dolfinx=0.9.0 mpich pyvista
 """,
 language="bash")
 
 st.write("Install SafeInCave by executing:")
 
 st.code(
-"""sudo apt install python3-pip
+"""
+sudo apt update
+sudo apt install python3-pip
 pip install --upgrade pip
-pip3 install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple safeincave""", 
+pip3 install safeincave""", 
 language="bash")
 
-st.write("Finally, install *libxft2* before running safeincave.")
+# st.write("Finally, make sure *libxft2* and *libxinerama1* are installed before running safeincave.")
 
-st.code(
-"""sudo apt-get install libxft2""", 
-language="bash")
+# st.code(
+# """
+# sudo apt-get install libxft2
+# sudo apt-get install -y libxinerama1
+# """, 
+# language="bash")
 
