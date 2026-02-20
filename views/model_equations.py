@@ -37,7 +37,7 @@ eq_heat_0 = equation(
 	r"""
 	\begin{equation}
 		\rho c \frac{\partial T}{\partial t} - \nabla \cdot \left( k\nabla T \right) = 0 \quad \forall \hspace{2mm} 
-        (\mathbf{x} \times t) \in (\Omega \times \mathcal{T})
+        (\mathbf{x} \times t) \in (\Omega \times \mathcal{T}) \nonumber
 	\end{equation}
 	""",
 	"eq_heat_0"

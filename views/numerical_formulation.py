@@ -63,7 +63,7 @@ eq_weak_heat_0 = equation(
 	    \int_\Omega \left( \rho c \frac{\partial T}{\partial t} + k\nabla T \cdot \nabla v \right)\mathrm{d}\Omega 
 	    + \int_{\Gamma^q} q'' v \mathrm{d}\Gamma
 	    + \int_{\Gamma^h} h\left( T - T_\infty \right) v \mathrm{d}\Gamma
-	    = 0.
+	    = 0. \nonumber
 	\end{align}
 	""",
 	"eq_weak_heat_0"
@@ -85,7 +85,7 @@ eq_weak_heat_1 = equation(
 	    \int_\Omega  \frac{\rho c}{\Delta t} T^t \mathrm{d}\Omega 
 	    + \int_{\Gamma^h} h T_\infty v \mathrm{d}\Gamma
 	    - \int_{\Gamma^q} q'' v \mathrm{d}\Gamma
-	    .
+	    . \nonumber
 	\end{align}
 	""",
 	"eq_weak_heat_1"
