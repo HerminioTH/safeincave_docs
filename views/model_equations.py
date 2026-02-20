@@ -24,15 +24,20 @@ st.write(
 st.markdown(" ## Heat diffusion")
 
 st.write(
-	"""
-	Let us consider a time domain $\mathcal{T} \in [t_0, t_f]$ and a spatial domain $\Omega \in \mathbb{R}^3$ bounded by a closed surface $\Gamma$ outward oriented by a normal vector $\hat{\mathbf{n}}$. Consider the surface $\Gamma$ can be further split into $\Gamma^T$, $\Gamma^q$, and $\Gamma^h$, such that $\Gamma = \Gamma^T \cup \Gamma^q \cup \Gamma^h$, and $\Gamma^T \cap \Gamma^q = \Gamma^T \cap \Gamma^h = \Gamma^h \cap \Gamma^q = \emptyset$. The heat diffusion equation without heat generation can be expressed as
+	r"""
+	Let us consider a time domain $\mathcal{T} \in [t_0, t_f]$ and a spatial domain $\Omega \in \mathbb{R}^3$ bounded by a closed surface 
+    $\Gamma$ outward oriented by a normal vector $\hat{\mathbf{n}}$. Consider the surface $\Gamma$ can be further split into $\Gamma^T$, 
+    $\Gamma^q$, and $\Gamma^h$, such that $\Gamma = \Gamma^T \cup \Gamma^q \cup \Gamma^h$, and 
+    $\Gamma^T \cap \Gamma^q = \Gamma^T \cap \Gamma^h = \Gamma^h \cap \Gamma^q = \emptyset$. The heat diffusion equation without heat generation 
+    can be expressed as
 	"""
 )
 
 eq_heat_0 = equation(
 	r"""
 	\begin{equation}
-		\rho c \frac{\partial T}{\partial t} - \nabla \cdot \left( k\nabla T \right) = 0 \quad \forall \hspace{2mm} (\mathbf{x} \times t) \in (\Omega \times \mathcal{T})
+		\rho c \frac{\partial T}{\partial t} - \nabla \cdot \left( k\nabla T \right) = 0 \quad \forall \hspace{2mm} 
+        (\mathbf{x} \times t) \in (\Omega \times \mathcal{T})
 	\end{equation}
 	""",
 	"eq_heat_0"
@@ -50,7 +55,8 @@ st.markdown(
 
 st.info(
 	"""
-	**_NOTE:_** The thermal conductivity $k$ is strictly considered to be a scalar here, although it can vary in space (as any other material property).
+	**_NOTE:_** The thermal conductivity $k$ is strictly considered to be a scalar here, although it can vary in space 
+    (as any other material property).
 	"""
 )
 
@@ -64,20 +70,24 @@ st.write(
 eq_heat_bc = equation(
 	r"""
 	\begin{align}
-		T(\mathbf{x}, t) = \bar{T}(\mathbf{x}, t) \quad &\forall \hspace{2mm} (\mathbf{x} \times t) \in (\Gamma^T \times \mathcal{T})
+		T(\mathbf{x}, t) = \bar{T}(\mathbf{x}, t) \quad &\forall \hspace{2mm} (\mathbf{x} \times t) \in (\Gamma^T \times \mathcal{T}) \nonumber
 		\\
-		-k\nabla T(\mathbf{x}, t) \cdot \hat{\mathbf{n}} = \bar{q}''(\mathbf{x}, t) \quad &\forall \hspace{2mm} (\mathbf{x} \times t) \in (\Gamma^q \times \mathcal{T})
+		-k\nabla T(\mathbf{x}, t) \cdot \hat{\mathbf{n}} = \bar{q}''(\mathbf{x}, t) \quad &\forall \hspace{2mm} (\mathbf{x} \times t) 
+        \in (\Gamma^q \times \mathcal{T})  \nonumber
 		\\
-		-k\nabla T(\mathbf{x}, t) \cdot \hat{\mathbf{n}} = h\left( T - T_\infty \right) \quad &\forall \hspace{2mm} (\mathbf{x} \times t) \in (\Gamma^h \times \mathcal{T})
+		-k\nabla T(\mathbf{x}, t) \cdot \hat{\mathbf{n}} = h\left( T - T_\infty \right) \quad &\forall \hspace{2mm} (\mathbf{x} \times t) 
+        \in (\Gamma^h \times \mathcal{T})  \nonumber
 		\\
-		T(\mathbf{x}, t_0) = T_0(\mathbf{x}) \quad &\forall \hspace{2mm} \mathbf{x} \in \Omega
+		T(\mathbf{x}, t_0) = T_0(\mathbf{x}) \quad &\forall \hspace{2mm} \mathbf{x} \in \Omega  \nonumber
 	\end{align}
 	""", "eq_heat_bc"
 )
 
 st.write(
 	r"""
-	where $\bar{T}(\mathbf{x}, t)$ and $\bar{q}''(\mathbf{x}, t)$ are the temperature and heat flux functions prescribed at $\Gamma^T$ and $\Gamma^q$, respectively. Additionally, $h$ is the convective heat transfer coefficient [$\text{W}/\text{m}^2/\text{K}$], and $T_\infty$ is the far field temperature (usually the gas/brine temperature).
+	where $\bar{T}(\mathbf{x}, t)$ and $\bar{q}''(\mathbf{x}, t)$ are the temperature and heat flux functions prescribed at 
+    $\Gamma^T$ and $\Gamma^q$, respectively. Additionally, $h$ is the convective heat transfer coefficient [$\text{W}/\text{m}^2/\text{K}$], 
+    and $T_\infty$ is the far field temperature (usually the gas/brine temperature).
 	"""
 )
 
@@ -118,11 +128,11 @@ st.write(
 eq_mom_bc = equation(
 	r"""
 	\begin{align}
-		\mathbf{u}(\mathbf{x}, t) = \bar{\mathbf{u}}(\mathbf{x}, t) \quad &\forall \hspace{2mm} (\mathbf{x} \times t) \in (\Gamma^u \times \mathcal{T})
+		\mathbf{u}(\mathbf{x}, t) = \bar{\mathbf{u}}(\mathbf{x}, t) \quad &\forall \hspace{2mm} (\mathbf{x} \times t) \in (\Gamma^u \times \mathcal{T})  \nonumber
 		\\
-		\pmb{\sigma}(\mathbf{x}, t) \cdot \hat{\mathbf{n}} = \bar{\mathbf{t}}(\mathbf{x}, t) \quad &\forall \hspace{2mm} (\mathbf{x} \times t) \in (\Gamma^\sigma \times \mathcal{T})
+		\pmb{\sigma}(\mathbf{x}, t) \cdot \hat{\mathbf{n}} = \bar{\mathbf{t}}(\mathbf{x}, t) \quad &\forall \hspace{2mm} (\mathbf{x} \times t) \in (\Gamma^\sigma \times \mathcal{T})  \nonumber
 		\\
-		\pmb{\sigma}(\mathbf{x}, t_0) = \pmb{\sigma}_0(\mathbf{x}) \quad &\forall \hspace{2mm} \mathbf{x} \in \Omega
+		\pmb{\sigma}(\mathbf{x}, t_0) = \pmb{\sigma}_0(\mathbf{x}) \quad &\forall \hspace{2mm} \mathbf{x} \in \Omega  \nonumber
 	\end{align}
 	""", "eq_mom_bc"
 )

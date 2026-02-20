@@ -70,8 +70,9 @@ eq_weak_heat_0 = equation(
 )
 
 st.markdown(
-	f"""
-	Integrating in time between $t$ and $t+\Delta t$, using the fully-implicit (i.e., backward Euler) scheme to evaluate the time integrals, and rearranging the terms, Eq. ({eq_weak_heat_0}) becomes
+	fr"""
+	Integrating in time between $t$ and $t+\Delta t$, using the fully-implicit (i.e., backward Euler) scheme to evaluate the time 
+    integrals, and rearranging the terms, Eq. ({eq_weak_heat_0}) becomes
 	"""
 )
 

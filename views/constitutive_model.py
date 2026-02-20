@@ -179,7 +179,7 @@ st.write(
 st.markdown(" ## Thermal strain element")
 
 st.write(
-	f"The thermal strain element is represented in Fig. {fig_constitutive_model_0} as a ballon that only responds to temperature variations $\Delta T$, not stress."+
+	fr"The thermal strain element is represented in Fig. {fig_constitutive_model_0} as a ballon that only responds to temperature variations $\Delta T$, not stress."+
 	" The termal strain is given by"
 )
 
